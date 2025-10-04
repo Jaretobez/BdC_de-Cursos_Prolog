@@ -1,0 +1,147 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   /*background: #f4f7fa;*/
+    background-color: #f0f4f8;
+    background-image: url('https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg');
+    background-repeat: repeat;
+    color: #333;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-weight: 800;
+    font-size: 2.8rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+/* Main */
+main {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Card style */
+.card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    padding: 36px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card h2 {
+    font-weight: 700;
+    font-size: 1.9rem;
+    margin-bottom: 24px;
+    color: #333;
+    text-align: center;
+}
+
+/* Labels */
+label {
+    align-self: flex-start;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+/* Select inputs */
+select {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 18px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    border: 2px solid #7393b3;
+    background-color: #f6f8fb;
+    margin-bottom: 24px;
+    color: #243b55;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%237393b3' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 16px 16px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+    border-color: #4969ca;
+    outline: none;
+    background-color: white;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    max-width: 280px;
+    padding: 16px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    background-color: #4969ca;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(73, 105, 202, 0.5);
+    transition: background-color 0.3s ease, transform 0.25s ease;
+}
+
+button:hover {
+    background-color: #3a529d;
+    transform: translateY(-4px);
+}
+
+/* Responses */
+#respuesta, #respuesta2 {
+    margin-top: 28px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    max-width: 90%;
+    text-align: center;
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+    background-color: #fff;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+#respuesta {
+    border: 2.5px solid #2e7d32;
+    color: #2e7d32;
+}
+
+#respuesta2 {
+    border: 2.5px solid #c62828;
+    color: #c62828;
+}

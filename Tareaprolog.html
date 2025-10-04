@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Consulta de Cursos Estudiantes</title>
+    <script src="tau-prolog.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<body>
+    <header>
+        <h1>Base de Conocimiento de Cursos</h1>
+        <p>Selecciona el estudiante y el curso para consultar su disponibilidad</p>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Consulta Curso Básico/Avanzado</h2>
+
+            <label for="estudiante">Estudiante</label>
+            <select id="estudiante" aria-label="Seleccionar estudiante">
+                <option value="ana">Ana</option>
+                <option value="juan" selected>Juan</option>
+                <option value="luis">Luis</option>
+                <option value="pedro">Pedro</option>
+                <option value="angel">Ángel</option>
+            </select>
+
+            <label for="sel_curso">Curso</label>
+            <select id="sel_curso" aria-label="Seleccionar curso">
+                <option value="matematicas">Matemáticas</option>
+                <option value="fisica">Física</option>
+                <option value="quimica">Química</option>
+                <option value="programacion">Programación</option>
+            </select>
+
+            <button id="busca" onclick="consulta()">Consultar</button>
+
+            <p id="respuesta" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="card">
+            <h2>Consulta Curso Avanzado</h2>
+
+            <button id="btn_avanzado" onclick="consulta_avanzado()">¿Puede tomar un curso avanzado?</button>
+            <p id="respuesta2" role="status" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <script id="cursos.pl" type="text/prolog">
+        % Requerimientos de aprobación de cursos
+        aprobado(ana, matematicas).
+        aprobado(juan, fisica).
+        aprobado(luis, matematicas).
+        aprobado(pedro, programacion).
+
+        % Un estudiante puede tomar un curso si tiene aprobado el curso anterior
+        curso_avanzado(X, fisica):- aprobado(X, matematicas).
+        curso_avanzado(X, quimica):- aprobado(X, fisica).
+        curso_avanzado(X, programacion):- aprobado(X, quimica).
+
+        % Curso básico disponible para todos los estudiantes
+        curso_basico(X, matematicas):- true.
+        curso_basico(X, fisica):- true.
+        curso_basico(X, quimica):- true.
+        curso_basico(X, programacion):- true.
+    </script>
+
+    <script>
+        // Script optimizado según versión previa (con Async/Await)
+        const session = pl.create();
+        session.consult(document.getElementById("cursos.pl").textContent);
+
+        function buscar(pregunta) {
+            return new Promise(resolve => {
+                session.query(pregunta);
+                session.answer(answer => {
+                    if (pl.type.is_substitution(answer)) {
+                        resolve(pl.format_answer(answer).startsWith("true"));
+                    } else {
+                        resolve(false);
+                    }
+                });
+            });
+        }
+
+        async function consulta() {
+            const estudiante = document.getElementById("estudiante").value.trim();
+            const curso = document.getElementById("sel_curso").value;
+            const respEl = document.getElementById("respuesta");
+
+            if (!estudiante) {
+                respEl.textContent = "Debe seleccionar un estudiante.";
+                respEl.style.color = "#d32f2f";
+                return;
+            }
+
+            let pregunta = "";
+            if (curso === "matematicas") {
+                pregunta = `curso_basico(${estudiante},matematicas).`;
+            } else {
+                pregunta = `curso_avanzado(${estudiante},${curso}).`;
+            }
+
+            respEl.textContent = "Consultando...";
+            respEl.style.color = "#333";
+
+            const resultado = await buscar(pregunta);
+
+            if (resultado) {
+                respEl.textContent = `${estudiante} sí puede tomar el curso de ${curso}`;
+                respEl.style.color = "#2e7d32";
+            } else {
+                respEl.textContent = `${estudiante} NO puede tomar el curso de ${curso}`;
+                respEl.style.color = "#c62828";
+            }
+        }
+
+        async function consulta_avanzado() {
+            const estudiante = document.getElementById("estudiante").value.trim();
+            const respEl = document.getElementById("respuesta2");
+
+            if (!estudiante) {
+                respEl.textContent = "Debe seleccionar un estudiante.";
+                respEl.style.color = "#d32f2f";
+                return;
+            }
+
+            const pregunta = `curso_avanzado(${estudiante},programacion).`;
+
+            respEl.textContent = "Consultando...";
+            respEl.style.color = "#333";
+
+            const resultado = await buscar(pregunta);
+
+            if (resultado) {
+                respEl.textContent = `${estudiante} sí puede tomar un curso avanzado`;
+                respEl.style.color = "#2e7d32";
+            } else {
+                respEl.textContent = `${estudiante} NO puede tomar un curso avanzado`;
+                respEl.style.color = "#c62828";
+            }
+        }
+    </script>
+</body>
+</html>
